@@ -4,6 +4,29 @@ import {isEmpty, keyBy, has} from "lodash";
 
 const phoneRegEx = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/gm
 
+const apiClient = {
+    sendRegistration: async (data) => {
+        return new Promise((resolve, reject) => {
+            console.log('sending data:', data)
+            setTimeout(() => {
+                const random = Math.random()
+                if (random < 0.6) {
+                    resolve({
+                        code: 200,
+                        data: 'user created'
+                    })
+                } else {
+                    reject({
+                        code: 500,
+                        data: 'some error on server'
+                    })
+                }
+
+            }, 1000)
+        })
+    }
+}
+
 yup.setLocale({
     string: {
         required: 'Обязательное поле',
@@ -62,6 +85,21 @@ const app = () => {
             state.valid = isEmpty(errors)
         })
     })
+    view.form.addEventListener('submit', async (evt) => {
+        evt.preventDefault()
+        console.log('submit')
+        debugger
+        state.processState = 'sending'
+
+        try {
+            const result = await apiClient.sendRegistration(state.formInputs)
+            console.log(result)
+            state.processState = 'sent';
+        } catch (error) {
+            state.processState = 'error';
+            state.processErrors = error.data
+        }
+    })
 
     // вернет функцию рендера-обновления представления по изменению модели
     const render = (view) => (path, value, prevValue) => {
@@ -70,14 +108,21 @@ const app = () => {
             case 'errors':
                 renderErrors(value, prevValue)
                 break;
-            case 'valid':
+            case 'valid': //
                 view.submitBtn.disabled = !value
+                break
+            case 'processState':
+                handleProcessState(view, value)
+                break
+            case 'processError':
+                handleProcessErrors(view, value)
+                break
+            default:
                 break
         }
     }
 
     const renderErrors = (errors, prevErrors) => {
-
         Object.entries(view.formInputs).forEach(([fieldName, fieldEl]) => {
             const fieldHadError = has(prevErrors, fieldName) // у поля были ошибки
             const fieldHasError = has(errors, fieldName) // у поля есть ошибки
@@ -102,6 +147,33 @@ const app = () => {
             fieldEl.insertAdjacentHTML('afterend', `<div class="invalid-feedback">${error.message}</div>`)
         })
     }
+    const handleProcessState = (view, processState) => {
+        switch (processState) {
+            case 'sent':
+                view.form.innerHTML = 'User Created!';
+                break;
+            case 'error':
+                view.submitBtn.disabled = false;
+                break;
+            case 'sending':
+                view.submitBtn.disabled = true;
+                break;
+            case 'filling':
+                view.submitBtn.disabled = false;
+                break;
+
+            default:
+                throw new Error(`Unknown process state: ${processState}`);
+        }
+    };
+    const handleProcessErrors = (view, errors) => {
+        alert(`Ошибка при отправке${errors}`)
+        // if (errors) {
+        //     view.form.insertAdjacentHTML('afterend',`<p class="error">Ошибка при отправке${errors}</p>`)
+        // } else {
+        //     view.form.nextElementSibling.remove()
+        // }
+    }
 
 
     // model (модель)
@@ -116,7 +188,9 @@ const app = () => {
                 passwordConfirmation: ''
             },
             errors: {},
-            valid: null
+            valid: null,
+            processState: 'filling',
+            processErrors: null,
         },
         render(view)
     )
