@@ -60,7 +60,6 @@ const validate = (fields) => {
 
 
 const app = () => {
-
     //  view (представление)
     const view = {
         formInputs: {
@@ -120,6 +119,7 @@ const app = () => {
         }
     }
 
+    // рендер состояний инпутов
     const renderErrors = (errors, prevErrors) => {
         Object.entries(view.formInputs).forEach(([fieldName, fieldEl]) => {
             const fieldHadError = has(prevErrors, fieldName) // у поля были ошибки
@@ -159,6 +159,8 @@ const app = () => {
             fieldEl.insertAdjacentHTML('afterend', `<div class="invalid-feedback">${error.message}</div>`)
         })
     }
+
+    // рендер состояний формы
     const handleProcessState = (view, processState) => {
         switch (processState) {
             case 'sent':
@@ -178,6 +180,8 @@ const app = () => {
                 throw new Error(`Unknown process state: ${processState}`);
         }
     };
+
+    // рендер ошибок процесса
     const handleProcessErrors = (view, errors) => {
         alert(`Ошибка при отправке${errors}`)
         // if (errors) {
