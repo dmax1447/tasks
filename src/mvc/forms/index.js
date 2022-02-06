@@ -36,11 +36,11 @@ yup.setLocale({
 })
 
 const formSchema = yup.object().shape({
-    name: yup.string().trim().required('Имя обязательно'),
-    email: yup.string().required('Введите электронную почту').email('Некорректная электронная почта'),
-    phone: yup.string().required('Введите телефон').matches(phoneRegEx, {message: 'Введите корректный номер телефона'}),
-    password: yup.string().required().min(6, (field) => `минимум ${field.min} символов`),
-    passwordConfirmation: yup.string()
+    name: yup.string().nullable().trim().required('Имя обязательно'),
+    email: yup.string().nullable().required('Введите электронную почту').email('Некорректная электронная почта'),
+    phone: yup.string().nullable().required('Введите телефон').matches(phoneRegEx, {message: 'Введите корректный номер телефона'}),
+    password: yup.string().nullable().required().min(6, (field) => `минимум ${field.min} символов`),
+    passwordConfirmation: yup.string().nullable()
         .required('пароль обязателен')
         .oneOf(
             [yup.ref('password'), null],
@@ -88,7 +88,6 @@ const app = () => {
     view.form.addEventListener('submit', async (evt) => {
         evt.preventDefault()
         console.log('submit')
-        debugger
         state.processState = 'sending'
 
         try {
@@ -103,7 +102,6 @@ const app = () => {
 
     // вернет функцию рендера-обновления представления по изменению модели
     const render = (view) => (path, value, prevValue) => {
-        console.log('render', {path, value, prevValue})
         switch (path) {
             case 'errors':
                 renderErrors(value, prevValue)
@@ -127,10 +125,23 @@ const app = () => {
             const fieldHadError = has(prevErrors, fieldName) // у поля были ошибки
             const fieldHasError = has(errors, fieldName) // у поля есть ошибки
             const error = errors[fieldName]
+            const prevError = prevErrors[fieldName]
+
+            // если нет ошибок то он валидный
+            if (!fieldHasError) {
+                fieldEl.classList.add('is-valid')
+            }
+
             // если у инпута не было ошибки и не появилась
             if (!fieldHadError && !fieldHasError) {
                 return
             }
+
+            // если у инпута есть ошибки но он не тронут
+            if (fieldHasError && error.value === null) {
+                return;
+            }
+
             if (fieldHadError && !fieldHasError) {
                 const errorContainer = fieldEl.nextElementSibling
                 errorContainer.remove()
@@ -138,11 +149,12 @@ const app = () => {
                 return
             }
             // если ошибка была и есть сейчас
-            if (fieldHadError && fieldHasError) {
+            if (fieldHadError && fieldHasError && prevError.value !== null) {
                 const errorContainer = fieldEl.nextElementSibling
                 errorContainer.textContent = error.message
                 return
             }
+            fieldEl.classList.remove('is-valid')
             fieldEl.classList.add('is-invalid')
             fieldEl.insertAdjacentHTML('afterend', `<div class="invalid-feedback">${error.message}</div>`)
         })
@@ -181,11 +193,11 @@ const app = () => {
     const state = onChange(
         {
             formInputs: {
-                name: '',
-                email: '',
-                phone: '',
-                password: '',
-                passwordConfirmation: ''
+                name: null,
+                email: null,
+                phone: null,
+                password: null,
+                passwordConfirmation: null
             },
             errors: {},
             valid: null,
