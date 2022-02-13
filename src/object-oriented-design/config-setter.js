@@ -6,27 +6,19 @@ export default class Truncater {
         length: 200,
     };
 
-    constructor(params = {}) {
-        const {separator, length} = params
-        this.options = {}
-
-        if (separator) {
-            this.options.separator = separator
-        }
-        if (length) {
-            this.options.length = length
-        }
+    constructor(options = {}) {
+        this.options = { ...this.constructor.defaultOptions, ...options };
     }
 
     truncate(text, newOptions) {
-        const options = {...Truncater.defaultOptions, ...this.options, ...newOptions}
-        if (text.length <= options.length) {
+        const { length, separator } = { ...this.options, ...newOptions };
+        if (text.length <= length) {
             return text
         }
 
-        return text.split('').splice(0, options.length).join('') + options.separator
+        return text.substring(0, length) + separator
     }
 }
 
 const truncater = new Truncater()
-truncater.truncate(text, {} ) //?
+truncater.truncate(text, {length: 3} ) //?
