@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@hexlet/immutable-fs-trees": "*",
+    "async": "^3.2.3",
     "lodash": "*",
     "on-change": "^4.0.0",
     "parcel": "^2.2.1",
