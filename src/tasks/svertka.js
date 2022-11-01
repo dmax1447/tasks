@@ -1,15 +1,11 @@
 const str = 'aascsdfggbnnddddfff'
 
 function reduceString(str) {
-    if (str.length || str.length === 1) {
+    if (!str.length || str.length === 1) {
         return str
     }
-
-    let stack = ''
+    let stack = str[0]
     let result = ''
-
-    stack = str[0]
-    stack.length
 
     for (let i = 1; i < str.length; i++) {
         const char = str[i]
