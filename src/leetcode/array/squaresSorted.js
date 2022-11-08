@@ -24,11 +24,6 @@ function getSortedSquares2(nums) {
                 [Math.pow(leftEl, 2), Math.pow(rightEl, 2), ...squares] :
                 [Math.pow(rightEl, 2), Math.pow(leftEl, 2), ...squares]
         }
-
-
-
-
-
     }
 
     return squares
