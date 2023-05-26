@@ -10,15 +10,14 @@
  * The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
  */
 
-const nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
 
-function merge(nums1, _m, nums2, _n) {
-    let sum1pointer = _m - 1
-    let sum2pointer = _n - 1
+function merge(nums1, m, nums2, n) {
+    let i = 0;
+    let j = 0;
 
-    do {
-        let nums1el = nums1[sum1pointer] //?
-        let nums2el = nums2[sum2pointer] //?
+    while (sum1pointer + sum2pointer >= 0) {
+        let nums1el = nums1[sum1pointer]
+        let nums2el = nums2[sum2pointer]
         let rightPointer = sum1pointer + sum2pointer + 1
 
         if (nums1el > nums2el) {
@@ -32,14 +31,16 @@ function merge(nums1, _m, nums2, _n) {
 
         } else {
             nums1[rightPointer] = nums2el
-            if (sum2pointer) {
+            if (sum2pointer > 0) {
                 sum2pointer--
             } else {
                 sum1pointer--
             }
         }
-    } while (sum1pointer + sum2pointer >= 0)
+    }
+    nums1.splice(m + n, nums1.length - (m + n))
 }
 
-merge(nums1, m, nums2, n)
-nums1 //?
+const nums1 = [1,2,3,0,0,0]
+merge(nums1, 3, [2,5,6], 3)
+nums1

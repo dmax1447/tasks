@@ -10,5 +10,5 @@ const getDirectorySize = (pathToDir) => {
         .then(stats => _.sumBy(stats, 'size'))
 }
 
-getDirectorySize('subdir')
+getDirectorySize('subdir/')
     .then(console.log)
