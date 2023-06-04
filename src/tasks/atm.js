@@ -30,7 +30,7 @@ const getCache = (amount) => {
         return acc
     }, {amount})
     delete bankNotesAmount.amount
-    return bankNotesAmount
+    return bankNotesAmount //?
 }
 
 const banknotes = getCache(requestedAmount)
