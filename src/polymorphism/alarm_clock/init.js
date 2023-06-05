@@ -1,8 +1,23 @@
+
+
 import AlarmClock from "./AlarmClock.js";
 
-const alarmClock = new AlarmClock()
-alarmClock.longClickMode()
+const clock = new AlarmClock()
+clock.longClickMode()
+clock.alarmValue //?
 
-setInterval(() => {
-  alarmClock.tick()
-}, 200)
+for (let i = 0; i < 18 * 60; i += 1) {
+  clock.tick();
+}
+clock.alarmValue //?
+clock.clockValue //?
+
+clock.isAlarmTime() //?
+clock.getCurrentMode() //?
+
+clock.clickM();
+clock.clickH();
+
+clock.tick();
+
+clock.getCurrentMode() //?

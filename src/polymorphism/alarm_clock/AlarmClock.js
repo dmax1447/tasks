@@ -12,12 +12,12 @@ class AlarmClock {
     }
 
     this.clockValue = {
-      hours: 22,
-      minutes: 45
+      hours: 12,
+      minutes: 0
     }
     this.alarmValue = {
-      hours: 1,
-      minutes: 10
+      hours: 6,
+      minutes: 0
     }
     this.alarmActive = false
     this.setState('clock')
@@ -68,16 +68,7 @@ class AlarmClock {
   }
 
   tick() {
-    this.increaseClockMinutes()
-    if (this.clockValue.minutes === 0) {
-      this.increaseClockHours()
-    }
-    console.log(`clock: ${this.hours()}:${this.minutes()}`)
-    if (this.isAlarmTime() && this.alarmActive) {
-
-      console.log('bell')
-      this.setState('bell')
-    }
+    this.state.tick()
   }
 
   isAlarmOn() {

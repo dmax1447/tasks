@@ -17,6 +17,16 @@ class AlarmState {
     this.clock.alarmValue.minutes =
       this.clock.alarmValue.minutes === 59 ? 0 : this.clock.alarmValue.minutes += 1;
   }
+
+  tick() {
+    this.clock.increaseClockMinutes()
+    if (this.clock.clockValue.minutes === 0) {
+      this.clock.increaseClockHours()
+    }
+    if (this.clock.isAlarmTime() && this.clock.alarmActive) {
+      this.clock.setState('bell')
+    }
+  }
 }
 
 export default AlarmState
