@@ -6,9 +6,9 @@ import _ from 'lodash'
 class AlarmClock {
   constructor() {
     this.states = {
-      clock: new ClockState(this),
-      alarm: new AlarmState(this),
-      bell: new BellState(this)
+      clock: ClockState,
+      alarm: AlarmState,
+      bell: BellState
     }
 
     this.clockValue = {
@@ -24,7 +24,7 @@ class AlarmClock {
   }
 
   setState(name) {
-    this.state = this.states[name]
+    this.state = new this.states[name](this)
   }
   getCurrentMode() {
     return this.state.mode
@@ -52,7 +52,6 @@ class AlarmClock {
   }
 
   clickMode() {
-    console.log(this.state)
     this.state.clickMode()
   }
   longClickMode() {
@@ -68,7 +67,15 @@ class AlarmClock {
   }
 
   tick() {
+    this.increment()
     this.state.tick()
+  }
+
+  increment() {
+    this.increaseClockMinutes()
+    if (this.clockValue.minutes === 0) {
+      this.increaseClockHours()
+    }
   }
 
   isAlarmOn() {

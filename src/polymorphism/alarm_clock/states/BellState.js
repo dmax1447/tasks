@@ -11,10 +11,6 @@ class BellState {
   clickM(){}
 
   tick() {
-    this.clock.increaseClockMinutes()
-    if (this.clock.clockValue.minutes === 0) {
-      this.clock.increaseClockHours()
-    }
     this.clock.setState('clock')
   }
 }

@@ -1,5 +1,3 @@
-
-
 import AlarmClock from "./AlarmClock.js";
 
 const clock = new AlarmClock()
@@ -17,7 +15,6 @@ clock.getCurrentMode() //?
 
 clock.clickM();
 clock.clickH();
-
 clock.tick();
 
 clock.getCurrentMode() //?
