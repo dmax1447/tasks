@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h1>test rener</h1>
+</body>
+<script>
+  let result = []
+  console.time('script')
+  console.log('time')
+  const calculate = (limit) => {
+    for(let i = 0; i < limit; i++) {
+      const a = Math.random() * 100 * i / (Math.random() * 100) / (Math.random() * 10) / (Math.random()) / (Math.random() * 3.15)
+      result.push(a)
+    }
+  }
+  calculate(10000000)
+  console.timeEnd('script')
+</script>
+</html>
