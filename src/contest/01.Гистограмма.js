@@ -1,10 +1,13 @@
-const str1 = 'Hello world!'
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+
 function buildCharData(str) {
+  const excluded = [' ', '\n']
   const charMap = {}
   let maxLevel = 0
   for (let i = 0; i < str.length; i++) {
     const char = str[i]
-    if (char === ' ') continue
+    if (excluded.includes(char)) continue
     if (!charMap[char]) charMap[char] = 0
     charMap[char] += 1
     if (maxLevel < charMap[char]) maxLevel = charMap[char]
@@ -17,7 +20,7 @@ function buildCharData(str) {
 }
 
 function printHistogram({maxLevel, entries}) {
-  for (let level = maxLevel; i >= 0; level--) {
+  for (let level = maxLevel; level > 0; level--) {
     let row = ''
     for(let j = 0; j < entries.length; j++) {
       const entryLevel = entries[j][1]
@@ -26,10 +29,10 @@ function printHistogram({maxLevel, entries}) {
     }
     console.log(row)
   }
+  console.log(entries.map(entry => entry[0]).join(''))
 }
 
-
-
-const charData = buildCharData(str1)
-printHistogram(charData)
-
+process.stdin.on('data', function(chunk) {
+  const charData = buildCharData(chunk)
+  printHistogram(charData)
+});
