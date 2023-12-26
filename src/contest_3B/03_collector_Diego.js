@@ -1,5 +1,8 @@
 function calc({N, stickers, K, stickerMaximums}) {
   console.log({N, stickers, K, stickerMaximums})
+
+  const diegoCards = [...new Set(stickers.sort((a, b) => a - b))]
+  console.log(diegoCards)
 }
 
 //
