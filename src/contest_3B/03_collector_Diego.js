@@ -17,13 +17,13 @@ function findIdxLessThenTarget(arr, target, start, end) {
 }
 
 function count(num, arr) {
+  if (arr.length === 0) return 0
+  if (arr.length === 1) return arr[0] < num ? 1 : 0
   const idx = findIdxLessThenTarget(arr, num, 0, arr.length - 1)
   return idx === null ? 0 : idx + 1
 }
 function calc({N, stickers, K, stickerMaximums}) {
-
   const diegoCards = [...new Set(stickers.map(Number).sort((a, b) => a - b))]
-  console.log({N, stickers, K, stickerMaximums, diegoCards})
   stickerMaximums.forEach((max) => {
     console.log(count(max, diegoCards))
   })
@@ -41,7 +41,7 @@ process.on('exit', (code) => {
   calc({N, stickers: stickersRaw.split(' '), K, stickerMaximums: stickerMaximumsRaw.split(' ')})
 });
 
-// const arr = [2, 50, 100, 105]
-// const res = count(100, arr) //?
+// const arr = [178]
+// const res = count(178, arr) //?
 
 
