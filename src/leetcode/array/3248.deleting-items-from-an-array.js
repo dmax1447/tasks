@@ -1,30 +1,4 @@
 // https://leetcode.com/explore/learn/card/fun-with-arrays/526/deleting-items-from-an-array/3248/
-
-var removeDuplicatesOld = function(nums) {
-  let uniqueCharIdx = 0
-  let currentUniqueChar = nums[0]
-  for(let i = 1; i < nums.length; i++) {
-    // if (nums[i] === '_') break
-    if (nums[i] === currentUniqueChar) {
-      nums[i] = '_'
-      continue
-    }
-
-    if (i === uniqueCharIdx +1) {
-      continue
-    }
-    uniqueCharIdx +=1
-    if (i === nums.length -1) {
-
-    }
-    nums[uniqueCharIdx] = nums[i]
-    currentUniqueChar = nums[i]
-    nums[i] = '_'
-
-
-  }
-  return uniqueCharIdx + 1
-};
 var removeDuplicates = function(nums) {
   let replaceIdx = 1
   let currentChar = nums[0]
