@@ -20,16 +20,16 @@ var maxProfit = function(prices) {
   while (todayIdx <= prices.length) {
     const localTrend = getDirection(prices[todayIdx-1], prices[todayIdx])
     if (todayIdx === prices.length && globalTrend === 'asc') { // конец грфика
-      return profit + (prices[todayIdx - 1] - extremum)
+      const localProfit = prices[todayIdx - 1] - extremum
+      return profit + localProfit
     }
-
     if (localTrend === globalTrend) {
       todayIdx +=1
-
       continue
     }
-    if (localTrend === 'desc') { //local max, take profit
-      profit += (prices[todayIdx - 1] - extremum)
+    if (localTrend !== 'asc' && globalTrend === 'asc') { //local max, take profit
+      const localProfit = prices[todayIdx - 1] - extremum
+      profit += localProfit
     }
     extremum = prices[todayIdx - 1]
     globalTrend = localTrend
@@ -37,13 +37,22 @@ var maxProfit = function(prices) {
   }
   return profit
 };
+function maxProfit2(prices) {
+  // попробовать подход с поиском интервала
+
+}
+
+
 
 const s1 = [5, 4, 2, 1, 2, 3, 8, 7, 6] //7
 const s2 = [1,2,3,4,5] //4
 const s3 = [7,6,4,3,1] //0
 const s4 = [2,1,4] // 3
+const s5 = [5,2,3,2,6,6,2,9,1,0,7,4,5,0]
+const s51 = [5,2,3,2,6,6,2]
 
 maxProfit(s1) //?
 maxProfit(s2) //?
 maxProfit(s3) //?
 maxProfit(s4) //?
+maxProfit(s5) //?
