@@ -38,8 +38,20 @@ var maxProfit = function(prices) {
   return profit
 };
 function maxProfit2(prices) {
-  // попробовать подход с поиском интервала
-
+  let i = 0
+  let profit = 0
+  while (i < prices.length) {
+    while (prices[i+1] <= prices[i] && i < prices.length) {
+      i++
+    }
+    const low = prices[i]
+    while (prices[i+1] > prices[i] && i < prices.length) {
+      i++
+    }
+    const high = prices[i++]
+    profit += high - low
+  }
+  return profit
 }
 
 
@@ -48,11 +60,12 @@ const s1 = [5, 4, 2, 1, 2, 3, 8, 7, 6] //7
 const s2 = [1,2,3,4,5] //4
 const s3 = [7,6,4,3,1] //0
 const s4 = [2,1,4] // 3
-const s5 = [5,2,3,2,6,6,2,9,1,0,7,4,5,0]
-const s51 = [5,2,3,2,6,6,2]
+const s5 = [5,2,3,2,6,6,2,9,1,0,7,4,5,0] // 20
 
 maxProfit(s1) //?
 maxProfit(s2) //?
 maxProfit(s3) //?
 maxProfit(s4) //?
 maxProfit(s5) //?
+
+maxProfit2(s1) //?
