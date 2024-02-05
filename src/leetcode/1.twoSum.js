@@ -15,5 +15,18 @@ function twoSum(nums, target) {
     return new Error('no pair')
 }
 
-const indexes = twoSum(numbers, 15)
+function toSums2 (nums, target) {
+    const hashTable = {}
+    for (let i = 0; i < nums.length; i++) {
+        const num = nums[i]
+        const compliment = target - num
+        if (compliment in hashTable) return [i, hashTable[compliment]]
+        hashTable[num] = i
+    }
+}
+
+const indexes = twoSum(numbers, 15) //?
+
+const num2 = [2,7,11,15]
+const res2 = toSums2(num2, 9) //?
 
